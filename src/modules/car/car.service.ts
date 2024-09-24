@@ -2,10 +2,13 @@ import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { PgService } from "src/pg";
 import { ICreateCarRequest } from "./interfaces/create-car.interface";
 import { IUpdateCarRequest } from "./interfaces/update-car.interface";
+import { ApiFeature } from "@utils";
 
 @Injectable()
 export class CarService {
-    constructor(private readonly pgService: PgService) { }
+    constructor(
+        private readonly pgService: PgService
+    ){ }
 
     create = async (carInterface: ICreateCarRequest): Promise<any> => {
         try {
@@ -24,9 +27,20 @@ export class CarService {
 
     }
 
-    getAll = async (): Promise<any> => {
+    getAll = async (queries : Record<string,string>): Promise<any> => {
         try {
-            return await this.pgService.fetchData('SELECT * FROM car')
+            const query = new ApiFeature('Car')
+                .paginate(+queries?.page,+queries?.limit)
+                .sort(queries?.sort)
+            
+            const data = await this.pgService.fetchData(query.getQuery())
+
+            return {
+                limit :  +queries?.limit,
+                page : +queries?.page,
+                sort : queries?.sort,
+                data
+            }
         } catch (error) {
             throw new InternalServerErrorException(`Error msg : ${error.message}`)
         }

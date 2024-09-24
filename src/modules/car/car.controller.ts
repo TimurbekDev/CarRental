@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { CarService } from "./car.service";
 import { CreateCarDTO } from "./dtos/create-car-dto";
 import { UpdateCarDTO } from "./dtos/update-car.dto";
+import { query } from "express";
 
 @Controller('/cars')
 export class CarController {
@@ -14,8 +15,8 @@ export class CarController {
 
 
     @Get('/')
-    async getAllCars():Promise<any>{
-        return await this.carService.getAll();
+    async getAllCars(@Query() queries:Record<string,string>):Promise<any>{
+        return await this.carService.getAll(queries);
     }
 
     @Put('/:id')

@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { PgService } from "src/pg";
+import { PgService } from "@postgres";
 import { ICreateCustomerRequest } from "./interfaces/create-customer.interface";
 import { IUpdateCustomerRequest } from "./interfaces/update-customer.interface";
 

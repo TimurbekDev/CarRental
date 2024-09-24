@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
-import { PgService } from "src/pg";
+import { PgService } from "@postgres";
 import { ICreateRentalRequest } from "./interfaces/create-rental.interface";
 import { IUpdateRentalRequest } from "./interfaces/update-rental.interface";
 
@@ -16,7 +16,7 @@ export class RentalService {
                 throw new BadRequestException('Car or Customer not found')
             }
             const result = await this.pgService.fetchData(`INSERT INTO Rental (car_id,customer_id,start_date,end_date)  
-            VALUES ($1, $2, $3, $4) RETURNING *`,
+                VALUES ($1, $2, $3, $4) RETURNING *`,
                 rentalInterface.car_id,
                 rentalInterface.customer_id,
                 rentalInterface.start_date,

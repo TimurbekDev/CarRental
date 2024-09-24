@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { RentalController } from "./rental.controller";
-import { PgService } from "src/pg";
+import { PgService } from "@postgres";
 import { RentalService } from "./rental.service";
 
 @Module({
