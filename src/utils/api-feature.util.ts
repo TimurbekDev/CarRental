@@ -32,9 +32,21 @@ export class ApiFeature {
     return this;
   }
 
-  sort(sortField: string, sortOrder: sortOrderType = 'ASC') {
-    this.filterOptions.sort = sortField || 'id';
-    this.filterOptions.sortOrder = sortOrder;
+  sort(sortField: string) {
+    
+    let sortOrder: sortOrderType = 'ASC';
+    if (sortField.includes('-')){
+      sortOrder = 'DESC';
+      sortField = sortField.replace('-', '');
+    }
+    this.filterOptions.sort = sortField;
+
+    return this;
+  }
+
+  limitField(selectFields:string[]){
+    this.filterOptions.fields = selectFields;
+
     return this;
   }
 
@@ -52,12 +64,12 @@ export class ApiFeature {
       .map(([key, value]) => `${key} = ${typeof value === 'string' ? `'${value}'` : value}`)
       .join(' AND ');
 
-    const whereClause = filterQuery ? `WHERE ${filterQuery}` : '';
+    const where = filterQuery ? `WHERE ${filterQuery}` : '';
 
     this.query = `
       SELECT ${selectFields} 
       FROM ${table}
-      ${whereClause}
+      ${where}
       ORDER BY ${sort} ${sortOrder}
       LIMIT ${limit}
       OFFSET ${offset}

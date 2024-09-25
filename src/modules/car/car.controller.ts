@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, InternalServerErrorException, Param, Post, Put, Query } from "@nestjs/common";
 import { CarService } from "./car.service";
 import { CreateCarDTO } from "./dtos/create-car-dto";
 import { UpdateCarDTO } from "./dtos/update-car.dto";
 import { query } from "express";
+import { throwError } from "rxjs";
 
 @Controller('/cars')
 export class CarController {
@@ -10,7 +11,11 @@ export class CarController {
 
     @Post('/')
     async  createCar(@Body() car: CreateCarDTO){
-        return await this.carService.create(car)
+        try {
+            return await this.carService.create(car)
+        } catch (error) {
+            throw new InternalServerErrorException()
+        }
     }
 
 
