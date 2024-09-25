@@ -13,7 +13,12 @@
     "paths": {
       "@postgres":["./src/pg"],
       "@utils":["./src/utils"],
-      "@modules":["./src/modules"]
+      "@pipes":["./src/pipes"],
+      "@filters":["./src/filters"],
+      "@modules":["./src/modules"],
+      "@interceptors":["./src/interceptors"],
+      "@guards":["./src/guards"],
+      "@decorators":["./src/decorators"],
     },
     "incremental": true,
     "skipLibCheck": true,

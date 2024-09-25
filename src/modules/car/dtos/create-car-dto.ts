@@ -1,7 +1,5 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, isString, IsString, Max, Min } from "class-validator"
-import { ICreateCarRequest } from "../interfaces"
-
-type fuel_type = 'petrol' | 'disel' | 'car'
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, isString, IsString, Max, Min } from "class-validator"
+import { fuel_type, ICreateCarRequest } from "../interfaces"
 
 export class CreateCarDTO implements ICreateCarRequest  {
 
@@ -15,9 +13,10 @@ export class CreateCarDTO implements ICreateCarRequest  {
     @Max(1_500_000)
     daily_price : number
 
-    @IsString()
+    @IsEnum(fuel_type)
     fuel_type : fuel_type
 
     @IsBoolean()
+    @IsOptional()
     is_available : boolean
 }

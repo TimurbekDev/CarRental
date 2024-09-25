@@ -1,4 +1,5 @@
-type fuel_type = 'petrol' | 'disel' | 'car'
+import { fuel_type } from "../interfaces"
+
 export class UpdateCarDTO{
     model : string
     daily_price : number
